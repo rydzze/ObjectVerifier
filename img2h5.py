@@ -9,7 +9,6 @@ NEW_HEIGHT = 500
 
 with h5py.File('dataset.h5', 'w') as hdf:
     color_images = []
-    grey_images = []
     labels = []
     
     for obj, path in enumerate(FOLDER_PATH, start=1):
@@ -20,16 +19,13 @@ with h5py.File('dataset.h5', 'w') as hdf:
             
             image = cv2.imread(img_path)
             color_img = cv2.resize(image, (NEW_WIDTH, NEW_HEIGHT))
-            grey_img = cv2.cvtColor(color_img, cv2.COLOR_BGR2GRAY)
             
             color_images.append(color_img)
-            grey_images.append(grey_img)
             labels.append(obj)
         
         print(f"Object {obj} done ...")
         
     hdf.create_dataset('Objects_Color', data=np.array(color_images), compression="gzip", compression_opts=9)
-    hdf.create_dataset('Objects_Greyscale', data=np.array(grey_images), compression="gzip", compression_opts=9)
     hdf.create_dataset('Labels', data=np.array(labels), compression="gzip", compression_opts=9)
 
 print("All images have been stored in the HDF5 dataset.")

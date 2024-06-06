@@ -1,2 +1,5 @@
 
 dataset.h5
+pca.pkl
+svm.pkl
+knn.pkl
