@@ -1,5 +1,3 @@
 
-dataset.h5
-pca.pkl
-svm.pkl
-knn.pkl
+1 - Parts Recognition/models/pca.pkl
+1 - Parts Recognition/dataset.h5
