@@ -1,17 +1,20 @@
-{% load static %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result Page</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Prediction Result</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 
 <body>
-    <h1>Result Page</h1>
-    <!-- Add your content here -->
+    <div class="container">
+        <h1>Prediction Result</h1>
+        <img src="{{ image_url }}" alt="Uploaded Image" style="max-width: 300px;">
+        <p>SVM Prediction: {{ svm_pred }}</p>
+        <p>KNN Prediction: {{ knn_pred }}</p>
+        <a href="{% url 'home' %}">Upload Another Image</a>
+    </div>
 </body>
+
 </html>
