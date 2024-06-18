@@ -2,20 +2,29 @@
 <html>
 
 <head>
-    <title>Upload Image</title>
+    <title>ObjectVerifier | Upload Image</title>
     {% load static %}
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'headfoot.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 
 <body>
-    <div class="container">
-        <h1>Upload Image for Object Verification</h1>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Upload</button>
-        </form>
-    </div>
+    {% include 'header.html' %}
+
+    <main>
+        <div class="container">
+            <h1>Upload Image for Object Verification</h1>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </main>
+    
+    {% include 'footer.html' %}
 </body>
 
 </html>

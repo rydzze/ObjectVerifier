@@ -2,19 +2,29 @@
 <html>
 
 <head>
-    <title>Prediction Result</title>
+    <title>ObjectVerifier | Result</title>
     {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'headfoot.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 
 <body>
-    <div class="container">
-        <h1>Prediction Result</h1>
-        <img src="{{ image_url }}" alt="Uploaded Image" style="max-width: 300px;">
-        <p>SVM Prediction: {{ svm_pred }}</p>
-        <p>KNN Prediction: {{ knn_pred }}</p>
-        <a href="{% url 'home' %}">Upload Another Image</a>
-    </div>
+    {% include 'header.html' %}
+
+    <main>
+        <div class="container">
+            <h1>Prediction Result</h1>
+    
+            <img src="{{ image_url }}" alt="Uploaded Image" style="max-width: 300px;">
+            <p>SVM Prediction: {{ svm_pred }}</p>
+            <p>KNN Prediction: {{ knn_pred }}</p>
+
+            <a href="{% url 'home' %}">Upload Another Image</a>
+        </div>
+    </main>
+
+    {% include 'footer.html' %}
 </body>
 
 </html>
