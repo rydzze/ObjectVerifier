@@ -5,26 +5,93 @@
     <title>ObjectVerifier | Upload Image</title>
     {% load static %}
     
-    <link rel="stylesheet" type="text/css" href="{% static 'headfoot.css' %}">
+    <link rel="icon" href="../static/icon.png" type="image/icon">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 
 <body>
-    {% include 'header.html' %}
+    <header>
+        <div id="header">
+            <h1>ObjectVerifier</h1>
+        </div>
+    </header>
 
     <main>
-        <div class="container">
-            <h1>Upload Image for Object Verification</h1>
-            
-            <form method="post" enctype="multipart/form-data">
+        <section class="content">
+            <div class="upload-box" id="upload-box">
+                <h2>Predict the Part!</h2>
+                <h3>Drop image files here or Click to upload</h3>
+                <input type="file" id="file-input" name="image">
+            </div>
+
+            <form id="upload-form" action="{% url 'home' %}" method="post" enctype="multipart/form-data" style="display:none;">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Upload</button>
+                <input type="file" id="hidden-file-input" name="image">
             </form>
-        </div>
-    </main>
-    
-    {% include 'footer.html' %}
+        </section>
+
+        <section class="content">
+            <div class="image-grid">
+                <div class="image-item">
+                    <img src="../static/1.jpg" alt="Object 1">
+                    <p>Object 1</p>
+                </div>
+                <div class="image-item">
+                    <img src="../static/2.jpg" alt="Object 2">
+                    <p>Object 2</p>
+                </div>
+                <div class="image-item">
+                    <img src="../static/3.jpg" alt="Object 3">
+                    <p>Object 3</p>
+                </div>
+                <div class="image-item">
+                    <img src="../static/4.jpg" alt="Object 4">
+                    <p>Object 4</p>
+                </div>
+            </div>
+        </section>
+    </main> 
+
+    <script>
+        document.getElementById('upload-box').addEventListener('click', function(){
+            document.getElementById('file-input').click();
+        });
+        document.getElementById('file-input').addEventListener('change', function(event){
+            handleFiles(event.target.files);
+        });
+        document.getElementById('upload-box').addEventListener('dragover', function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.add('dragover');
+        });
+        document.getElementById('upload-box').addEventListener('dragleave', function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.remove('dragover');
+        });
+        document.getElementById('upload-box').addEventListener('drop', function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.remove('dragover');
+            handleFiles(event.dataTransfer.files);
+        });
+
+        function handleFiles(files){
+            if(files.length > 0){
+                const form = document.getElementById('upload-form');
+                const hiddenInput = document.getElementById('hidden-file-input');
+                const allowedTypes = ['image/jpeg', 'image/jpg'];
+
+                if(allowedTypes.includes(files[0].type)){
+                    hiddenInput.files = files;
+                    form.submit();
+                } 
+                else{
+                    alert('Please upload a JPEG file.');
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>

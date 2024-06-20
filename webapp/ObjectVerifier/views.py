@@ -1,12 +1,12 @@
+import os
+import numpy as np
+import joblib
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
+from django.http import JsonResponse
 from .forms import ImageUploadForm
 from .models import UploadedImage
-import joblib
 from PIL import Image
-import numpy as np
-import os
-from sklearn.decomposition import PCA
 from django.conf import settings
 
 # Load your models
@@ -15,19 +15,23 @@ svm = joblib.load(os.path.join(settings.BASE_DIR, 'ml_models', 'svm.pkl'))
 knn = joblib.load(os.path.join(settings.BASE_DIR, 'ml_models', 'knn.pkl'))
 
 def handle_uploaded_file(file_path):
-    # Open and process the image
-    image = Image.open(file_path)
-    image = image.resize((750, 500))  # Resize to 750x500
-    image_array = np.array(image).flatten()  # Flatten the image
+    try:
+        # Open and process the image
+        image = Image.open(file_path)
+        image = image.resize((750, 500))
+        image_array = np.array(image).flatten()
 
-    # Transform the image using PCA
-    transformed_image = pca.transform([image_array])
-    
-    # Perform predictions
-    svm_prediction = svm.predict(transformed_image)
-    knn_prediction = knn.predict(transformed_image)
+        # Transform the image using PCA
+        transformed_image = pca.transform([image_array])
+        
+        # Perform predictions
+        svm_prediction = svm.predict(transformed_image)
+        knn_prediction = knn.predict(transformed_image)
 
-    return svm_prediction[0], knn_prediction[0]
+        return svm_prediction[0], knn_prediction[0]
+    except Exception as e:
+        print(f"Error processing file: {e}")
+        return None, None
 
 def home(request):
     if request.method == 'POST':
@@ -45,12 +49,17 @@ def home(request):
             # Remove the file after prediction
             os.remove(file_path)
 
-            return redirect(f'/result/?svm_pred={svm_pred}&knn_pred={knn_pred}&image_url={uploaded_image.image.url}')
+            if svm_pred is not None and knn_pred is not None:
+                return redirect(f'/result/?svm_pred={svm_pred}&knn_pred={knn_pred}&image_url={uploaded_image.image.url}')
+            else:
+                return render(request, 'home.html', {'form': form, 'error': 'Error processing the image.'})
+        else:
+            return render(request, 'home.html', {'form': form, 'error': 'Invalid form submission.'})
     else:
         form = ImageUploadForm()
     return render(request, 'home.html', {'form': form})
 
-def result(request):
+def result(request):    
     svm_pred = request.GET.get('svm_pred')
     knn_pred = request.GET.get('knn_pred')
     image_url = request.GET.get('image_url')

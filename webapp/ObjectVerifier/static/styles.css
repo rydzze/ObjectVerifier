@@ -1,3 +1,5 @@
+/* Layout CSS */
+
 html, body {
     height: 100%;
     margin: 0;
@@ -14,62 +16,211 @@ main {
     height: auto;
 }
 
-.container {
-    width: 50%;
-    margin: auto;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-top: 50px;
-    margin-bottom: 50px;
-    text-align: center;
-}
 
-h1 {
-    color: #333;
-}
 
-form {
-    margin-top: 20px;
-}
+/* Home Page */
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px 2px;
-    cursor: pointer;
-    border-radius: 4px;
-}
+    /* Header CSS */
 
-button:hover {
-    background-color: #45a049;
-}
+    #header {
+        background-color: #ffffff;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-img {
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-    max-width: 100%;
-    height: auto;
-}
+    #header h1 {
+        margin: 0;
+        font-size: 2em;
+        font-weight: 700;
+        text-align: center;
+        color: inherit;
+        text-decoration: none;
+        animation: glow 2s infinite alternate;
+    }
 
-p {
-    font-size: 18px;
-    color: #666;
-}
+    @keyframes glow {
+        0% {
+            color: #0055ff;
+        }
+        100% {
+            color: #0088ff;
+        }
+    }
 
-a {
-    color: #4CAF50;
-    text-decoration: none;
-}
 
-a:hover {
-    text-decoration: underline;
-}
+    /* Content CSS */
+
+    .content {
+        width: 70%;
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 5px;
+        text-align: center;
+    }
+
+
+    /* Upload Image CSS */
+
+    form {
+        margin-top: 20px;
+    }
+
+    button {
+        background-color: #0088ff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 10px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0055ff;
+    }
+
+    /* Text CSS */
+
+    h1 {
+        color: #333;
+    }
+
+    p {
+        font-size: 24px;
+        color: #333;
+    }
+
+    /* Upload Box CSS */
+
+    .upload-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        border: 2px dashed #0088f788;
+        border-radius: 5px;
+        background: white;
+        padding: 50px;
+        height: calc(100vh - 600px);
+        cursor: pointer;
+    }
+
+    .upload-box h2 {
+        margin-top: auto;
+        font-size: 36px;
+        opacity: 60%;
+    }
+
+    .upload-box h3 {
+        margin-bottom: auto;
+        opacity: 50%;
+    }
+
+    .upload-box.dragover {
+        border-color: #8a8a8a8a;
+        background-color: #8a8a8a4a;
+    }
+
+    .upload-box input[type="file"] {
+        display: none;
+    }
+
+    /* Image Grid CSS */
+
+    .image-grid {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    .image-item {
+        text-align: center;
+    }
+
+    .image-item img {
+        width: 100px;
+        height: auto;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        padding: 2px;
+    }
+
+    .image-item p {
+        margin-top: 10px;
+        margin-bottom: 0;
+    }   
+
+
+
+/* Result Page */
+
+    /* Image CSS  */
+
+    img {
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Result Content CSS */
+
+    #result {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .res_content {
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 5px;
+        text-align: center;
+        flex: 0 0 60%;
+        margin-right: 20px;
+    }
+
+    .res_content:last-child {
+        flex: 0 0 30%;
+        margin-right: 0;
+        align-items: center;
+    }
+
+    /* Classification Report Table CSS */
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .table {
+        width: 75%;
+        margin: 20px auto;
+    }
