@@ -8,7 +8,7 @@ FOLDER_PATH = ["Object 1", "Object 2", "Object 3", "Object 4"]
 NEW_WIDTH = 750
 NEW_HEIGHT = 500
 
-# Create a new HDF5 file for storing data
+# Create a new HDF5 file
 with h5py.File('dataset.h5', 'w') as hdf:
     images = []
     labels = []
