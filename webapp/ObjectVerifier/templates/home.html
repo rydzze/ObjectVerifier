@@ -19,8 +19,8 @@
     <main>
         <section class="content">
             <div class="upload-box" id="upload-box">
-                <h2>Predict the Part!</h2>
-                <h3>Drop image files here or Click to upload</h3>
+                <h2>Predict the Object!</h2>
+                <h3>Drop the image file here or Click to upload</h3>
                 <input type="file" id="file-input" name="image">
             </div>
 
@@ -80,14 +80,14 @@
             if(files.length > 0){
                 const form = document.getElementById('upload-form');
                 const hiddenInput = document.getElementById('hidden-file-input');
-                const allowedTypes = ['image/jpeg', 'image/jpg'];
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
                 if(allowedTypes.includes(files[0].type)){
                     hiddenInput.files = files;
                     form.submit();
                 } 
                 else{
-                    alert('Please upload a JPEG file.');
+                    alert('Please upload a JPEG file or a PNG file.');
                 }
             }
         }

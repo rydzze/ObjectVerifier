@@ -9,7 +9,7 @@ from .models import UploadedImage
 from PIL import Image
 from django.conf import settings
 
-# Load your models
+# Load PCA, SVM, and KNN models
 pca = joblib.load(os.path.join(settings.BASE_DIR, 'ml_models', 'pca.pkl'))
 svm = joblib.load(os.path.join(settings.BASE_DIR, 'ml_models', 'svm.pkl'))
 knn = joblib.load(os.path.join(settings.BASE_DIR, 'ml_models', 'knn.pkl'))
@@ -17,18 +17,19 @@ knn = joblib.load(os.path.join(settings.BASE_DIR, 'ml_models', 'knn.pkl'))
 def handle_uploaded_file(file_path):
     try:
         # Open and process the image
-        image = Image.open(file_path)
-        image = image.resize((750, 500))
-        image_array = np.array(image).flatten()
+        img = Image.open(file_path)
+        img = img.resize((750, 500))
+        image_array = np.array(img).flatten()
 
         # Transform the image using PCA
-        transformed_image = pca.transform([image_array])
+        transformed_img = pca.transform([image_array])
         
-        # Perform predictions
-        svm_prediction = svm.predict(transformed_image)
-        knn_prediction = knn.predict(transformed_image)
+        # PREDICTION !!!
+        svm_pred = svm.predict(transformed_img)
+        knn_pred = knn.predict(transformed_img)
 
-        return svm_prediction[0], knn_prediction[0]
+        return svm_pred[0], knn_pred[0]
+    
     except Exception as e:
         print(f"Error processing file: {e}")
         return None, None
@@ -37,10 +38,10 @@ def home(request):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            uploaded_image = form.save()
+            uploaded_img = form.save()
             # Save the uploaded file
             fs = FileSystemStorage()
-            file_path = fs.save(uploaded_image.image.name, uploaded_image.image)
+            file_path = fs.save(uploaded_img.image.name, uploaded_img.image)
             file_path = fs.path(file_path)
 
             # Perform predictions
@@ -50,7 +51,7 @@ def home(request):
             os.remove(file_path)
 
             if svm_pred is not None and knn_pred is not None:
-                return redirect(f'/result/?svm_pred={svm_pred}&knn_pred={knn_pred}&image_url={uploaded_image.image.url}')
+                return redirect(f'/result/?svm_pred={svm_pred}&knn_pred={knn_pred}&image_url={uploaded_img.image.url}')
             else:
                 return render(request, 'home.html', {'form': form, 'error': 'Error processing the image.'})
         else:
